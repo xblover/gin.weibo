@@ -1,12 +1,15 @@
 package routes
 
 import (
-	"gin.weibo/app/controllers/home"
 	"github.com/gin-gonic/gin"
+
+	staticpage "gin.weibo/app/controllers/static_page"
 )
 
 func registerWeb(g *gin.Engine) {
 	//root
-	g.GET("/", home.Index)
-	g.GET("/2", home.Index2)
+	g.GET("/", staticpage.Home)
+	g.GET("/help", staticpage.Help)
+	g.GET("about", staticpage.About)
+
 }
