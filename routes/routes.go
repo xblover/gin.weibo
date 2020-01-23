@@ -3,7 +3,6 @@ package routes
 import (
 	"net/http"
 
-	"gin.weibo/app/controllers/home"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,9 +17,10 @@ func Register(g *gin.Engine) *gin.Engine {
 		c.String(http.StatusNotFound, "404 not found")
 	})
 
-	// root
-	g.GET("/", home.Index)
-	g.GET("/2", home.Index2)
+	// web
+	registerWeb(g)
+	//api
+	registerApi(g)
 
 	return g
 }
