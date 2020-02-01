@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"gin.weibo/app/helpers"
+	"gin.weibo/app/models"
 	"gin.weibo/config"
 	"gin.weibo/database"
 	"gin.weibo/routes"
@@ -23,6 +24,9 @@ func main() {
 
 	//db config
 	db := database.InitDB()
+	db.AutoMigrate(
+		&models.User{},
+	)
 	defer db.Close()
 
 	//router config
