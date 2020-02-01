@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"gin.weibo/app/models"
+	viewmodels "gin.weibo/app/view_models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,7 +30,7 @@ func Show(c *gin.Context) {
 	m := &models.User{}
 	user, err := m.Get(id)
 
-	c.HTML(http.StatusOK, "user/show.html", user)
+	c.HTML(http.StatusOK, "user/show.html", viewmodels.NewUserViewModelsSerializer(user))
 }
 
 // 保存用户
