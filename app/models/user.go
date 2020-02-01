@@ -1,6 +1,9 @@
 package models
 
 import (
+	"crypto/md5"
+	"encoding/hex"
+	"strconv"
 	"time"
 
 	"gin.weibo/database"
@@ -29,4 +32,10 @@ func (User) Get(id int) (*User, error) {
 	u := &User{}
 	d := database.DB.First(&u, id)
 	return u, d.Error
+}
+
+// 生成用户头像
+func (u *User) Gravatar(size int) string {
+	hash := md5.Sum([]byte(u.Email))
+	return "http://www.gravatar.com/avatar/" + hex.EncodeToString(hash[:]) + "?s=" + strconv.Itoa(size)
 }

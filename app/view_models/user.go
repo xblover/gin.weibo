@@ -13,11 +13,11 @@ type UserViewModel struct {
 }
 
 //用户数据展示
-func NewUserViewModelSerializer(u *models.User) UserViewModel {
+func NewUserViewModelSerializer(u *models.User, avatarSize int) UserViewModel {
 	return UserViewModel{
 		ID:     int(u.ID),
 		Name:   u.Name,
 		Email:  u.Email,
-		Avatar: "http://www.gravatar.com/avatat/",
+		Avatar: u.Gravatar(avatarSize),
 	}
 }
