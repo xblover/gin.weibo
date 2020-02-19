@@ -7,19 +7,24 @@ import (
 	"gin.weibo/app/models"
 	viewmodels "gin.weibo/app/view_models"
 	"github.com/gin-gonic/gin"
+
+	"gin.weibo/app/controllers"
+	"gin.weibo/pkg/flash"
 )
 
-//用户列表
+// Index 用户列表
 func Index(c *gin.Context) {
-
+	controllers.Render(c, "user/index.html", gin.H{
+		"my": "user index",
+	})
 }
 
-// 创建用户页面
+// Create 创建用户页面
 func Create(c *gin.Context) {
-	c.HTML(http.StatusOK, "user/create.html", gin.H{})
+	controllers.Render(c, "user/create.html", gin.H{})
 }
 
-// 用户详情
+// Show 用户详情
 func Show(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -33,9 +38,10 @@ func Show(c *gin.Context) {
 	c.HTML(http.StatusOK, "user/show.html", viewmodels.NewUserViewModelsSerializer(user, 140))
 }
 
-// 保存用户
+// Store 保存用户
 func Store(c *gin.Context) {
-
+	flash.NewSuccessFlash(c, "啦啦啦啦写入 flash 成功啦")
+	controllers.Redirect(c, "http://localhost:8888/users/create")
 }
 
 // 编辑用户界面
