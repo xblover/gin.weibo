@@ -1,8 +1,11 @@
 package controllers
 
 import (
+	"fmt"
+	"html/template"
 	"net/http"
 
+	"gin.weibo/config"
 	"gin.weibo/pkg/flash"
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +21,14 @@ func Render(c *gin.Context, tplPath string, data renderObj) {
 	oldValueStore := flash.ReadOldFromValue(c)
 
 	obj[flash.FlashInContextAndCookieKeyName] = flashStore.Data
+	//上次 post form 的数据 用于回填
 	obj[flash.OldValueInContextAndCookieKeyName] = oldValueStore.Data
+	//csrf
+	if config.AppConfig.EnableCsrf {
+		if csrfHtml, ok := CsrfField(c); ok {
+			obj["csrfField"] = csrfHtml
+		}
+	}
 	for k, v := range data {
 		obj[k] = v
 	}
@@ -29,4 +39,15 @@ func Render(c *gin.Context, tplPath string, data renderObj) {
 // 路由重定向
 func Redirect(c *gin.Context, redirectRoute string) {
 	c.Redirect(http.StatusMovedPermanently, redirectRoute)
+}
+
+// CsrfField csrf input
+func CsrfField(c *gin.Context) (template.HTML, bool) {
+	token := c.Keys[config.AppConfig.CsrfParamName]
+	tokenStr, ok := token.(string)
+	if !ok {
+		return "", false
+	}
+
+	return template.HTML(fmt.Sprintf(`<input type="hidden" name="%s" value="%s">`, config.AppConfig.CsrfParamName, tokenStr)), true
 }

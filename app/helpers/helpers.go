@@ -3,7 +3,6 @@ package helpers
 import (
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"os"
 	"path"
 	"time"
@@ -47,19 +46,14 @@ func FormatAsDate(t time.Time) string {
 	return fmt.Sprintf("%d/%02d/%02d", year, month, day)
 }
 
-// csrf input
-func CsrfField() template.HTML {
-	return template.HTML(fmt.Sprintf(`<input type="hidden" name="_token" value="%s">`, "asd"))
-}
-
-func HasSession(key string) bool {
-
-}
-
-func GetSession(key string) string {
-
-}
-
-func Old(key string, defaultValue string) string {
-
-}
+//func HasSession(key string) bool {
+//
+//}
+//
+//func GetSession(key string) string {
+//
+//}
+//
+//func Old(key string, defaultValue string) string {
+//
+//}

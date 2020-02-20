@@ -1,8 +1,6 @@
 package routes
 
 import (
-	"os/user"
-
 	"github.com/gin-gonic/gin"
 
 	staticpage "gin.weibo/app/controllers/static_page"

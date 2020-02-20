@@ -12,7 +12,7 @@ type UserViewModel struct {
 	Avatar string
 }
 
-//用户数据展示
+// NewUserViewModelSerializer 用户数据展示
 func NewUserViewModelSerializer(u *models.User, avatarSize int) UserViewModel {
 	return UserViewModel{
 		ID:     int(u.ID),

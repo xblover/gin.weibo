@@ -35,7 +35,7 @@ func Show(c *gin.Context) {
 	m := &models.User{}
 	user, err := m.Get(id)
 
-	c.HTML(http.StatusOK, "user/show.html", viewmodels.NewUserViewModelsSerializer(user, 140))
+	c.HTML(http.StatusOK, "user/show.html", viewmodels.NewUserViewModelSerializer(user, 140))
 }
 
 // Store 保存用户
