@@ -34,6 +34,13 @@ func (User) Get(id int) (*User, error) {
 	return u, d.Error
 }
 
+// GetByEmail 根据email 来获取用户
+func (User) GetByEmail(email string) (*User, error) {
+	u := &User{}
+	d := database.DB.Where("email = ?", email).First(&u)
+	return u, d.Error
+}
+
 // 生成用户头像
 func (u *User) Gravatar(size int) string {
 	hash := md5.Sum([]byte(u.Email))

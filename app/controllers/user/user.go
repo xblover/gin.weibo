@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"gin.weibo/app/controllers"
+	"gin.weibo/app/requests"
 	"gin.weibo/pkg/flash"
 )
 
@@ -40,6 +41,21 @@ func Show(c *gin.Context) {
 
 // Store 保存用户
 func Store(c *gin.Context) {
+	userForm := &requests.UserForm{
+		Name:                 c.PostForm("name"),
+		Email:                c.PostForm("email"),
+		Password:             c.PostForm("password"),
+		PasswordConfirmation: c.PostForm("password_confirmation"),
+	}
+
+	errors := userForm.Validate()
+
+	if len(errors) != 0 {
+		controllers.Render(c, "user/create.html", gin.H{
+			"errors": errors,
+		})
+	}
+
 	flash.NewSuccessFlash(c, "啦啦啦啦写入 flash 成功啦")
 	controllers.Redirect(c, "http://localhost:8888/users/create")
 }
