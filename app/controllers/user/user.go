@@ -36,7 +36,9 @@ func Show(c *gin.Context) {
 	m := &models.User{}
 	user, err := m.Get(id)
 
-	c.HTML(http.StatusOK, "user/show.html", viewmodels.NewUserViewModelSerializer(user, 140))
+	controllers.Render(c, "user/show.html", gin.H{
+		"userData": viewmodels.NewUserViewModelSerializer(user, 140),
+	})
 }
 
 // Store 保存用户
@@ -49,9 +51,8 @@ func Store(c *gin.Context) {
 		PasswordConfirmation: c.PostForm("password_confirmation"),
 	}
 
-	errors := userForm.Validate()
+	user, errors := userForm.ValidateAndSave()
 
-	flash.NewSuccessFlash(c, "啦啦啦啦写入 flash 成功啦")
 	if len(errors) != 0 {
 		flash.SaveValidateMessage(c, errors)
 		controllers.Redirect(c, "/users/create")
@@ -59,6 +60,8 @@ func Store(c *gin.Context) {
 	}
 
 	controllers.Redirect(c, "/users/create")
+	flash.NewSuccessFlash(c, "欢迎，您将在这里开启一段新的旅程~")
+	controllers.Redirect(c, "/users/show/"+strconv.Itoa(int(user.ID)))
 }
 
 // 编辑用户界面
