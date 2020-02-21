@@ -41,6 +41,7 @@ func Show(c *gin.Context) {
 
 // Store 保存用户
 func Store(c *gin.Context) {
+	//验证参数
 	userForm := &requests.UserForm{
 		Name:                 c.PostForm("name"),
 		Email:                c.PostForm("email"),
@@ -50,14 +51,14 @@ func Store(c *gin.Context) {
 
 	errors := userForm.Validate()
 
+	flash.NewSuccessFlash(c, "啦啦啦啦写入 flash 成功啦")
 	if len(errors) != 0 {
-		controllers.Render(c, "user/create.html", gin.H{
-			"errors": errors,
-		})
+		flash.SaveValidateMessage(c, errors)
+		controllers.Redirect(c, "/users/create")
+		return
 	}
 
-	flash.NewSuccessFlash(c, "啦啦啦啦写入 flash 成功啦")
-	controllers.Redirect(c, "http://localhost:8888/users/create")
+	controllers.Redirect(c, "/users/create")
 }
 
 // 编辑用户界面

@@ -16,9 +16,9 @@ func (u *UserForm) emailUniqueValidator() validatorFunc {
 	return func() (msg string) {
 		m := &models.User{}
 		if _, err := m.GetByEmail(u.Email); err != nil {
-			return "邮箱已经被注册过了"
+			return ""
 		}
-		return ""
+		return "邮箱已经被注册过了"
 	}
 }
 
